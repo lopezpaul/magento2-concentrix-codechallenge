@@ -1,0 +1,8 @@
+'Unable to find Corporate Group with group_id: %1','No se pudo encontrar el Grupo Corporativo con el group_id: %1'
+'Please select an option','Por favor seleccione una opción'
+'Could not save Corporate Group, because the email with value:"%1" is not valid. Please try again.','No se pudo guardar el Grupo Corporativo, por que el email con el valor:"%1" no es válido. Por favor intente de nuevo'
+'Field %1 is empty.','El campo %1 está vacío.'
+'The group_id "%1" already exists.','El grupo "%1" ya existe'
+'Please enter valid telephone like: (123) 456-7890 or 123-456-7890.','Por favor proporcione un teléfono válido como: (123) 456-7890 or 123-456-7890.'
+'The group_id "%1" already exists.','El group_id "%1" ya existe.'
+'Group #%1 was successfully associated to customer id: %2','Grupo #%1 fue asociado exitosamente al cliente: %2'

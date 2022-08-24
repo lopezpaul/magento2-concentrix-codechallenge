@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2022 Concentrix. All rights reserved.
+ *
+ * @package  Concentrix_CodeChallenge
+ * @author   Concentrix <info@concentrix.com>
+ * @license  See LICENSE.txt for license details.
+ * @link     https://www.concentrix.com/
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Concentrix\CodeChallenge\Api\CorporateGroupRepositoryInterface"
+                type="Concentrix\CodeChallenge\Model\CorporateGroupRepository"/>
+
+    <preference for="Concentrix\CodeChallenge\Api\Data\CorporateGroupInterface"
+                type="Concentrix\CodeChallenge\Model\CorporateGroup"/>
+
+    <preference for="Concentrix\CodeChallenge\Api\CorporateGroupApiInterface"
+                type="Concentrix\CodeChallenge\Model\CorporateGroupApi"/>
+</config>

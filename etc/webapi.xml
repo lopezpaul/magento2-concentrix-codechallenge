@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2022 Concentrix. All rights reserved.
+ *
+ * @package  Concentrix_CodeChallenge
+ * @author   Concentrix <info@concentrix.com>
+ * @license  See LICENSE.txt for license details.
+ * @link     https://www.concentrix.com/
+ */
+ -->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+   <route url="/V1/api/corporateGroups/create" method="POST">
+        <service class="Concentrix\CodeChallenge\Api\CorporateGroupApiInterface" method="create"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+       <data>
+           <parameter name="groupId" >%groupId%</parameter>
+           <parameter name="groupName" >%groupName%</parameter>
+           <parameter name="email" >%email%</parameter>
+           <parameter name="telephone" >%telephone%</parameter>
+       </data>
+    </route>
+
+    <route url="/V1/api/corporateGroups/getById/:id" method="GET">
+        <service class="Concentrix\CodeChallenge\Api\CorporateGroupApiInterface" method="getById"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/api/corporateGroups/getByGroupId/:groupId" method="GET">
+        <service class="Concentrix\CodeChallenge\Api\CorporateGroupApiInterface" method="getByGroupId"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/api/corporateGroups/deleteByGroupId/:groupId" method="DELETE">
+        <service class="Concentrix\CodeChallenge\Api\CorporateGroupApiInterface" method="deleteByGroupId"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/api/corporateGroups/getList" method="GET">
+        <service class="Concentrix\CodeChallenge\Api\CorporateGroupRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/api/corporateGroups/linkToCustomerById" method="POST">
+        <service class="Concentrix\CodeChallenge\Api\CorporateGroupApiInterface" method="linkToCustomerById"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+        <data>
+            <parameter name="groupId" >%groupId%</parameter>
+            <parameter name="customerId" >%customerId%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/api/corporateGroups/linkToCustomerByEmail" method="POST">
+        <service class="Concentrix\CodeChallenge\Api\CorporateGroupApiInterface" method="linkToCustomerByEmail"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+        <data>
+            <parameter name="groupId" >%groupId%</parameter>
+            <parameter name="email" >%email%</parameter>
+        </data>
+    </route>
+</routes>

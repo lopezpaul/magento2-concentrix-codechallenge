@@ -1,0 +1,21 @@
+{
+    "type": "magento2-module",
+    "name": "concentrix/module-codechallenge",
+    "description": "Concentrix code challenge. CRUD with API Rest.",
+    "authors": [
+        {
+            "email": "paul.lopezm@gmail.com",
+            "name": "Paul Lopez"
+        }
+    ],
+    "version": "1.0.0",
+    "time": "2022-08-23",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Concentrix\\CodeChallenge\\": ""
+        }
+    }
+}
