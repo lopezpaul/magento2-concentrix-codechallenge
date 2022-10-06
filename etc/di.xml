@@ -13,10 +13,8 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Concentrix\CodeChallenge\Api\CorporateGroupRepositoryInterface"
                 type="Concentrix\CodeChallenge\Model\CorporateGroupRepository"/>
-
     <preference for="Concentrix\CodeChallenge\Api\Data\CorporateGroupInterface"
                 type="Concentrix\CodeChallenge\Model\CorporateGroup"/>
-
     <preference for="Concentrix\CodeChallenge\Api\CorporateGroupApiInterface"
                 type="Concentrix\CodeChallenge\Model\CorporateGroupApi"/>
 </config>

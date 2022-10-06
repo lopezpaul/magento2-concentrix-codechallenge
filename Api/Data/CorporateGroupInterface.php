@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * Copyright © 2022 Concentrix. All rights reserved.
  *
@@ -12,76 +14,111 @@ namespace Concentrix\CodeChallenge\Api\Data;
 
 interface CorporateGroupInterface
 {
-    const GROUP_ID = 'group_id';
-    const GROUP_NAME = 'group_name';
-    const EMAIL = 'email';
-    const TELEPHONE = 'telephone';
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT     = 'updated_at';
+    /** @var string */
+    public const GROUP_ID = 'group_id';
+
+    /** @var string */
+    public const GROUP_NAME = 'group_name';
+
+    /** @var string */
+    public const EMAIL = 'email';
+
+    /** @var string */
+    public const TELEPHONE = 'telephone';
+
+    /** @var string */
+    public const CREATED_AT = 'created_at';
+
+    /** @var string */
+    public const UPDATED_AT = 'updated_at';
 
     /**
-     * @return string
+     * Retrieve group_id
+     *
+     * @return string|null
      */
-    public function getGroupId();
+    public function getGroupId(): ?string;
 
     /**
+     * Store group_id
+     *
      * @param string $groupId
      * @return void
      */
-    public function setGroupId(string $groupId);
+    public function setGroupId(string $groupId): void;
 
     /**
-     * @return string
+     * Retrieve group_name
+     *
+     * @return string|null
      */
-    public function getGroupName();
+    public function getGroupName(): ?string;
 
     /**
+     * Store group_name
+     *
      * @param string $groupName
      * @return void
      */
-    public function setGroupName($groupName);
+    public function setGroupName($groupName): void;
 
     /**
-     * @return string
+     * Retrieve email
+     *
+     * @return string|null
      */
-    public function getEmail();
+    public function getEmail(): ?string;
 
     /**
+     * Store email
+     *
      * @param string $email
      * @return void
      */
-    public function setEmail(string $email);
+    public function setEmail(string $email): void;
 
     /**
-     * @return string
+     * Retrieve telephone
+     *
+     * @return string|null
      */
-    public function getTelephone();
+    public function getTelephone(): ?string;
 
     /**
+     * Store telephone
+     *
      * @param string $telephone
      * @return void
      */
-    public function setTelephone(string $telephone);
+    public function setTelephone(string $telephone): void;
 
     /**
+     * Retrieve created_at
+     *
      * @return string|null
      */
-    public function getCreatedAt();
+    public function getCreatedAt(): ?string;
 
     /**
+     * Store created_at
+     *
      * @param string $createdAt
-     * @return mixed
+     * @return void
      */
-    public function setCreatedAt(string $createdAt);
+    public function setCreatedAt(string $createdAt): void;
 
     /**
+     * Retrieve updated_at
+     *
      * @return string|null
      */
-    public function getUpdatedAt();
+    public function getUpdatedAt(): ?string;
 
     /**
+     * Store updated_at
+     *
      * @param string $updatedAt
-     * @return mixed
+     * @return void
      */
-    public function setUpdatedAt(string $updatedAt);
+    public function setUpdatedAt(string $updatedAt): void;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * Copyright © 2022 Concentrix. All rights reserved.
  *
@@ -20,25 +22,30 @@ use Magento\Framework\Setup\Patch\PatchRevertableInterface;
 
 class AddCorporateGroupAttributesV1 implements DataPatchInterface, PatchRevertableInterface
 {
-    const ATTRIBUTE_CODE = 'corporate_group_id';
-    const ENTITY_TYPE = Customer::ENTITY;
-    const SCOPE = ScopedAttributeInterface::SCOPE_STORE;
-    const FORM_PERMISSIONS = [
+    /** @var string */
+    private const ATTRIBUTE_CODE = 'corporate_group_id';
+
+    /** @var string */
+    private const ENTITY_TYPE = Customer::ENTITY;
+
+    /** @var int */
+    private const SCOPE = ScopedAttributeInterface::SCOPE_STORE;
+
+    /** @var string[] */
+    private const FORM_PERMISSIONS = [
         'adminhtml_checkout',
         'adminhtml_customer',
         'customer_account_create',
         'customer_account_edit',
     ];
-    const ATTRIBUTE_POSITION = 900;
 
-    /**
-     * @var ModuleDataSetupInterface
-     */
+    /** @var int */
+    private const ATTRIBUTE_POSITION = 900;
+
+    /** @var ModuleDataSetupInterface */
     private ModuleDataSetupInterface $moduleDataSetup;
 
-    /**
-     * @var CustomerSetupFactory
-     */
+    /** @var CustomerSetupFactory */
     private CustomerSetupFactory $customerSetupFactory;
 
     /**
@@ -47,14 +54,16 @@ class AddCorporateGroupAttributesV1 implements DataPatchInterface, PatchRevertab
      */
     public function __construct(
         ModuleDataSetupInterface $moduleDataSetup,
-        CustomerSetupFactory     $customerSetupFactory
+        CustomerSetupFactory $customerSetupFactory
     ) {
         $this->moduleDataSetup = $moduleDataSetup;
         $this->customerSetupFactory = $customerSetupFactory;
     }
 
     /**
-     * @inheritdoc
+     * Add Customer Attribute: corporate_group_id
+     *
+     * @return $this|AddCorporateGroupAttributesV1
      */
     public function apply()
     {
@@ -95,7 +104,9 @@ class AddCorporateGroupAttributesV1 implements DataPatchInterface, PatchRevertab
     }
 
     /**
-     * @inheritdoc
+     * Without dependencies
+     *
+     * @return array|string[]
      */
     public static function getDependencies()
     {
@@ -103,7 +114,9 @@ class AddCorporateGroupAttributesV1 implements DataPatchInterface, PatchRevertab
     }
 
     /**
-     * @inheritdoc
+     * Version 1.0.0
+     *
+     * @return string
      */
     public static function getVersion()
     {
@@ -111,7 +124,9 @@ class AddCorporateGroupAttributesV1 implements DataPatchInterface, PatchRevertab
     }
 
     /**
-     * @inheritdoc
+     * Without aliases
+     *
+     * @return array|string[]
      */
     public function getAliases()
     {
@@ -119,7 +134,9 @@ class AddCorporateGroupAttributesV1 implements DataPatchInterface, PatchRevertab
     }
 
     /**
-     * {@inheritdoc}
+     * Remove Customer Attribute
+     *
+     * @return void
      */
     public function revert()
     {

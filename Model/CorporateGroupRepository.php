@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * Copyright © 2022 Concentrix. All rights reserved.
  *
@@ -23,39 +25,29 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 class CorporateGroupRepository implements CorporateGroupRepositoryInterface
 {
-    const LOADED_KEY_REGISTRY = 'concentrix_codechallenge_loaded';
+    private const LOADED_KEY_REGISTRY = 'concentrix_codechallenge_loaded';
+
+    /** @var CorporateGroupInterfaceFactory */
+    private CorporateGroupInterfaceFactory $corporateGroupFactory;
+
+    /** @var ResourceCorporateGroup */
+    private ResourceCorporateGroup $resourceCorporateGroup;
+
+    /** @var CorporateGroupCollectionFactory */
+    private CorporateGroupCollectionFactory $CorporateGroupCollectionFactory;
+
+    /** @var mixed|null */
+    private $loadedRecord = null;
+
+    /** @var DataPersistorInterface */
+    private DataPersistorInterface $dataPersistor;
+
+    /** @var CustomerRepositoryInterface */
+    private CustomerRepositoryInterface $customerRepository;
 
     /**
-     * @var CorporateGroupInterfaceFactory
-     */
-    protected CorporateGroupInterfaceFactory $corporateGroupFactory;
-
-    /**
-     * @var ResourceCorporateGroup
-     */
-    protected ResourceCorporateGroup $resourceCorporateGroup;
-
-    /**
-     * @var CorporateGroupCollectionFactory
-     */
-    protected CorporateGroupCollectionFactory $CorporateGroupCollectionFactory;
-
-    /**
-     * @var mixed|null
-     */
-    protected $loadedRecord = null;
-
-    /**
-     * @var DataPersistorInterface
-     */
-    protected DataPersistorInterface $dataPersistor;
-
-    /**
-     * @var CustomerRepositoryInterface
-     */
-    protected CustomerRepositoryInterface $customerRepository;
-
-    /**
+     * CorporateGroupRepository constructor
+     *
      * @param CorporateGroupInterfaceFactory $corporateGroupFactory
      * @param ResourceCorporateGroup $resourceCorporateGroup
      * @param CorporateGroupCollectionFactory $CorporateGroupCollectionFactory
@@ -63,11 +55,11 @@ class CorporateGroupRepository implements CorporateGroupRepositoryInterface
      * @param CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
-        CorporateGroupInterfaceFactory  $corporateGroupFactory,
-        ResourceCorporateGroup          $resourceCorporateGroup,
+        CorporateGroupInterfaceFactory $corporateGroupFactory,
+        ResourceCorporateGroup $resourceCorporateGroup,
         CorporateGroupCollectionFactory $CorporateGroupCollectionFactory,
-        DataPersistorInterface          $dataPersistor,
-        CustomerRepositoryInterface     $customerRepository
+        DataPersistorInterface $dataPersistor,
+        CustomerRepositoryInterface $customerRepository
     ) {
         $this->corporateGroupFactory = $corporateGroupFactory;
         $this->resourceCorporateGroup = $resourceCorporateGroup;
@@ -80,11 +72,13 @@ class CorporateGroupRepository implements CorporateGroupRepositoryInterface
     }
 
     /**
+     * Store records on registry
+     *
      * @param array $corporateGroupRecords
      * @param bool $merge
-     * @return $this
+     * @return void
      */
-    protected function setloadedRecordRecords(array $corporateGroupRecords = [], bool $merge = false)
+    private function setloadedRecords(array $corporateGroupRecords = [], bool $merge = false): void
     {
         $loadedRecord = [];
         foreach ($corporateGroupRecords as $corporateGroupRecord) {
@@ -98,11 +92,11 @@ class CorporateGroupRepository implements CorporateGroupRepositoryInterface
 
         $this->dataPersistor->clear(self::LOADED_KEY_REGISTRY);
         $this->dataPersistor->set(self::LOADED_KEY_REGISTRY, $this->loadedRecord);
-
-        return $this;
     }
 
     /**
+     * Store corporate group
+     *
      * @param CorporateGroupInterface $corporateGroupRecord
      * @return CorporateGroupInterface
      * @throws CouldNotSaveException
@@ -120,14 +114,15 @@ class CorporateGroupRepository implements CorporateGroupRepositoryInterface
     }
 
     /**
-     * @param $id
-     * @return CorporateGroupInterface|NoSuchEntityException|mixed
+     * Load corporate group by entity_id
+     *
+     * @param int $id
+     * @return CorporateGroupInterface|NoSuchEntityException
      */
-    public function get($id)
+    public function get(int $id): CorporateGroupInterface
     {
-        $corporateGroup = $this->corporateGroupFactory->create();
-        $corporateGroup->getResource()->load($corporateGroup, $id, 'entity_id');
-        if (!$corporateGroup->getEntityId()) {
+        $corporateGroup = $this->corporateGroupFactory->create()->load($id);
+        if (empty($corporateGroup)) {
             throw new NoSuchEntityException(__('Unable to find Corporate Group with entity_id "%1"', $id));
         }
         return $corporateGroup;
@@ -149,7 +144,7 @@ class CorporateGroupRepository implements CorporateGroupRepositoryInterface
             }
             $this->resourceCorporateGroup->load($corporateGroupRecord, $groupId, 'group_id');
             if ($corporateGroupRecord->getGroupId()) {
-                $this->setloadedRecordRecords([$corporateGroupRecord], true);
+                $this->setloadedRecords([$corporateGroupRecord], true);
             }
         }
         return $corporateGroupRecord;
@@ -173,6 +168,7 @@ class CorporateGroupRepository implements CorporateGroupRepositoryInterface
 
     /**
      * Delete CorporateGroup by group_id
+     *
      * @param string $groupId
      * @return bool
      * @throws NoSuchEntityException
@@ -188,75 +184,18 @@ class CorporateGroupRepository implements CorporateGroupRepositoryInterface
     }
 
     /**
-     * @inheritDoc
+     * Get all records
+     *
+     * @param bool $forceReload
+     * @return mixed|null
      */
-    public function getAll($forceReload = false)
+    public function getAll(bool $forceReload = false)
     {
         if (empty($this->loadedRecord) || $forceReload) {
             $this->CorporateGroupCollectionFactory->addOrder('`order`', 'ASC');
             $corporateGroupRecords = $this->CorporateGroupCollectionFactory->load();
-            $this->setloadedRecordRecords($corporateGroupRecords);
+            $this->setloadedRecords($corporateGroupRecords);
         }
         return $this->loadedRecord;
-    }
-
-    /**
-     * Create CorporateGroup
-     *
-     * @param  $data
-     * @return false|CorporateGroupInterface
-     * @throws CouldNotSaveException
-     * @throws \Magento\Framework\Exception\InputException
-     * @throws \Magento\Framework\Exception\StateException
-     */
-    public function createCorporateGroupRecord($data)
-    {
-        if ($data instanceof CorporateGroupInterface) {
-            $data = $data->getData();
-        }
-
-        if (!is_array($data) || !$this->validateStructure($data)) {
-            return false;
-        }
-        //Check if CorporateGroup already exists
-        $groupId = $data[CorporateGroupInterface::GROUP_ID];
-        $corporateGroup = $this->corporateGroupFactory->create();
-        $corporateGroup->getResource()->load($corporateGroup, $groupId, 'group_id');
-        if ($corporateGroup->getEntityId() > 0) {
-            return false;
-        }
-
-        $corporateGroupRecord = $this->corporateGroupFactory->create();
-        $corporateGroupRecord->setGroupId($groupId);
-        $corporateGroupRecord->setGroupName($data[CorporateGroupInterface::GROUP_NAME]);
-        $corporateGroupRecord->setTelephone($data[CorporateGroupInterface::TELEPHONE]);
-        $corporateGroupRecord->setEmail($data[CorporateGroupInterface::EMAIL]);
-        $corporateGroupRecord = $this->save($corporateGroupRecord);
-        $this->loadedRecord[$corporateGroupRecord->getGroupId()] = $corporateGroupRecord;
-
-        return $corporateGroupRecord;
-    }
-
-    /**
-     * Evaluate if CorporateGroup has all mandatory fields
-     *
-     * @param array $data
-     * @return bool
-     */
-    protected function validateStructure(array $data): bool
-    {
-        if (!isset($data[CorporateGroupInterface::GROUP_NAME])) {
-            return false;
-        }
-        if (!isset($data[CorporateGroupInterface::GROUP_ID])) {
-            return false;
-        }
-        if (!isset($data[CorporateGroupInterface::EMAIL])) {
-            return false;
-        }
-        if (!isset($data[CorporateGroupInterface::TELEPHONE])) {
-            return false;
-        }
-        return true;
     }
 }
