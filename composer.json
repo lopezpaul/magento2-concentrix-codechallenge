@@ -8,8 +8,8 @@
             "name": "Paul Lopez"
         }
     ],
-    "version": "1.0.0",
-    "time": "2022-08-23",
+    "version": "1.0.1",
+    "time": "2022-10-05",
     "autoload": {
         "files": [
             "registration.php"

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * Copyright © 2022 Concentrix. All rights reserved.
  *
@@ -7,6 +9,7 @@
  * @license  See LICENSE.txt for license details.
  * @link     https://www.concentrix.com/
  */
+
 namespace Concentrix\CodeChallenge\Api;
 
 interface CorporateGroupApiInterface
@@ -15,21 +18,21 @@ interface CorporateGroupApiInterface
      * Retrieve CorporateGroup by entity_id
      *
      * @param int $id
-     * @return string
+     * @return array
      * @api
      */
     public function getById(
         int $id
-    ):string;
+    ): array;
 
     /**
      * Get CorporateGroup by group_id
      *
      * @param string $groupId
-     * @return string
+     * @return array
      * @api
      */
-    public function getByGroupId(string $groupId):string;
+    public function getByGroupId(string $groupId): array;
 
     /**
      * Create CorporateGroup
@@ -38,7 +41,7 @@ interface CorporateGroupApiInterface
      * @param string $groupName
      * @param string $email
      * @param string $telephone
-     * @return string
+     * @return array
      * @api
      */
     public function create(
@@ -46,36 +49,36 @@ interface CorporateGroupApiInterface
         string $groupName,
         string $email,
         string $telephone
-    ):string;
+    ): array;
 
     /**
      * Remove CorporateGroup by group_id
      *
      * @param string $groupId
-     * @return string
+     * @return array
      * @api
      */
-    public function deleteByGroupId(string $groupId):string;
+    public function deleteByGroupId(string $groupId): array;
 
     /**
      * Link corporate group to customer by customer id
      *
      * @param string $groupId
      * @param int $customerId
+     * @return array
      * @throws NoSuchEntityException
-     * @return string
      * @api
      */
-    public function linkToCustomerById(string $groupId, int $customerId):string;
+    public function linkToCustomerById(string $groupId, int $customerId): array;
 
     /**
      * Link a corporate group to a customer by customer email
      *
      * @param string $groupId
      * @param string $email
+     * @return array
      * @throws NoSuchEntityException
-     * @return string
      * @api
      */
-    public function linkToCustomerByEmail(string $groupId, string $email):string;
+    public function linkToCustomerByEmail(string $groupId, string $email): array;
 }

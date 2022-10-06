@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * Copyright © 2022 Concentrix. All rights reserved.
  *
@@ -10,9 +12,9 @@
 
 namespace Concentrix\CodeChallenge\Model;
 
-use Magento\Framework\Model\AbstractModel;
 use Concentrix\CodeChallenge\Api\Data\CorporateGroupInterface;
 use Concentrix\CodeChallenge\Model\ResourceModel\CorporateGroup as CorporateGroupResourceModel;
+use Magento\Framework\Model\AbstractModel;
 
 class CorporateGroup extends AbstractModel implements CorporateGroupInterface
 {
@@ -27,103 +29,127 @@ class CorporateGroup extends AbstractModel implements CorporateGroupInterface
     }
 
     /**
+     * Retrieve group_id
+     *
      * @return string
      */
-    public function getGroupId()
+    public function getGroupId(): string
     {
         return $this->_getData(self::GROUP_ID);
     }
 
     /**
+     * Store group_id
+     *
      * @param string $groupId
      * @return void
      */
-    public function setGroupId(string $groupId)
+    public function setGroupId(string $groupId): void
     {
         $this->setData(self::GROUP_ID, strtoupper($groupId));
     }
 
     /**
-     * @return string
+     * Retrieve group_name
+     *
+     * @return string|null
      */
-    public function getGroupName()
+    public function getGroupName(): ?string
     {
         return $this->_getData(self::GROUP_NAME);
     }
 
     /**
+     * Store group_name
+     *
      * @param string $groupName
      * @return void
      */
-    public function setGroupName($groupName)
+    public function setGroupName($groupName): void
     {
         $this->setData(self::GROUP_NAME, $groupName);
     }
 
     /**
-     * @return string
+     * Retrieve email
+     *
+     * @return string|null
      */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->_getData(self::EMAIL);
     }
 
     /**
+     * Store email
+     *
      * @param string $email
      * @return void
      */
-    public function setEmail(string $email)
+    public function setEmail(string $email): void
     {
         $this->setData(self::EMAIL, $email);
     }
 
     /**
-     * @return string
+     * Retrieve telephone
+     *
+     * @return string|null
      */
-    public function getTelephone()
+    public function getTelephone(): ?string
     {
         return $this->_getData(self::TELEPHONE);
     }
 
     /**
+     * Store telephone
+     *
      * @param string $telephone
      * @return void
      */
-    public function setTelephone(string $telephone)
+    public function setTelephone(string $telephone): void
     {
         $this->setData(self::TELEPHONE, $telephone);
     }
 
     /**
+     * Store created_at
+     *
      * @param string $createdAt
-     * @return CorporateGroup|mixed
+     * @return void
      */
-    public function setCreatedAt(string $createdAt)
+    public function setCreatedAt(string $createdAt): void
     {
-        return $this->setData(self::CREATED_AT, $createdAt);
+        $this->setData(self::CREATED_AT, $createdAt);
     }
 
     /**
-     * @return mixed|string|null
+     * Retrieve created_at
+     *
+     * @return string|null
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): ?string
     {
         return $this->_getData(self::CREATED_AT);
     }
 
     /**
+     * Store updated_at
+     *
      * @param string $updatedAt
-     * @return CorporateGroup
+     * @return void
      */
-    public function setUpdatedAt(string $updatedAt)
+    public function setUpdatedAt(string $updatedAt): void
     {
-        return $this->setData(self::UPDATED_AT, $updatedAt);
+        $this->setData(self::UPDATED_AT, $updatedAt);
     }
 
     /**
-     * @return mixed|string|null
+     * Retrieve updated_at
+     *
+     * @return string|null
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?string
     {
         return $this->_getData(self::UPDATED_AT);
     }

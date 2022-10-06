@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * Copyright © 2022 Concentrix. All rights reserved.
  *
@@ -7,25 +9,22 @@
  * @license  See LICENSE.txt for license details.
  * @link     https://www.concentrix.com/
  */
+
 namespace Concentrix\CodeChallenge\Api;
 
-use Magento\Framework\Api\SearchCriteriaInterface;
 use Concentrix\CodeChallenge\Api\Data\CorporateGroupInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\StateException;
-use Magento\Framework\Exception\CouldNotSaveException;
 use Concentrix\CodeChallenge\Api\Data\CorporateGroupSearchResultInterface;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
 
-/**
- *
- */
 interface CorporateGroupRepositoryInterface
 {
     /**
      * Save CorporateGroup Record
      *
-     * @param  CorporateGroupInterface $corporateGroupRecord
+     * @param CorporateGroupInterface $corporateGroupRecord
      * @return CorporateGroupInterface|CouldNotSaveException
      * @throws InputException
      * @throws StateException
@@ -37,7 +36,7 @@ interface CorporateGroupRepositoryInterface
     /**
      * Get info about CorporateGroup by entity_id
      *
-     * @param  int   $id
+     * @param int $id
      * @return CorporateGroupInterface|NoSuchEntityException
      * @api
      */
@@ -46,7 +45,7 @@ interface CorporateGroupRepositoryInterface
     /**
      * Get CorporateGroup by group_id
      *
-     * @param  string   $groupId
+     * @param string $groupId
      * @return CorporateGroupInterface|NoSuchEntityException
      * @api
      */
@@ -59,5 +58,5 @@ interface CorporateGroupRepositoryInterface
      * @return bool
      * @api
      */
-    public function deleteByGroupId(string $groupId):bool;
+    public function deleteByGroupId(string $groupId): bool;
 }

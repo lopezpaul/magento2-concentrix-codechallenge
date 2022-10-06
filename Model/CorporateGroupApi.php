@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * Copyright © 2022 Concentrix. All rights reserved.
  *
@@ -20,41 +22,41 @@ use Psr\Log\LoggerInterface;
 
 class CorporateGroupApi implements CorporateGroupApiInterface
 {
-    /**
-     * @var CorporateGroupFactory
-     */
-    protected CorporateGroupFactory $corporateGroupFactory;
+    /** @var CorporateGroupFactory */
+    private CorporateGroupFactory $corporateGroupFactory;
 
-    /**
-     * @var CustomerFactory
-     */
-    protected CustomerFactory $customerFactory;
+    /** @var CustomerFactory */
+    private CustomerFactory $customerFactory;
 
-    /**
-     * @var CustomerRepositoryInterface
-     */
-    protected CustomerRepositoryInterface $customerRepository;
+    /** @var CustomerRepositoryInterface */
+    private CustomerRepositoryInterface $customerRepository;
 
-    /**
-     * @var LoggerInterface
-     */
+    /** @var ResourceCorporateGroup */
+    private ResourceCorporateGroup $resourceModel;
+
+    /** @var LoggerInterface */
     protected LoggerInterface $logger;
 
     /**
+     * CorporateGroup API Constructor
+     *
      * @param CorporateGroupFactory $corporateGroupFactory
      * @param CustomerFactory $customerFactory
      * @param CustomerRepositoryInterface $customerRepository
+     * @param ResourceCorporateGroup $resourceModel
      * @param LoggerInterface $logger
      */
     public function __construct(
-        CorporateGroupFactory       $corporateGroupFactory,
-        CustomerFactory             $customerFactory,
+        CorporateGroupFactory $corporateGroupFactory,
+        CustomerFactory $customerFactory,
         CustomerRepositoryInterface $customerRepository,
-        LoggerInterface             $logger
+        ResourceCorporateGroup $resourceModel,
+        LoggerInterface $logger
     ) {
         $this->corporateGroupFactory = $corporateGroupFactory;
         $this->customerFactory = $customerFactory;
         $this->customerRepository = $customerRepository;
+        $this->resourceModel = $resourceModel;
         $this->logger = $logger;
     }
 
@@ -62,9 +64,9 @@ class CorporateGroupApi implements CorporateGroupApiInterface
      * Search CorporateGroup by group_id
      *
      * @param string $groupId
-     * @return string|false
+     * @return array
      */
-    public function getByGroupId(string $groupId): string
+    public function getByGroupId(string $groupId): array
     {
         $data = [
             'success' => false,
@@ -106,14 +108,16 @@ class CorporateGroupApi implements CorporateGroupApiInterface
             $this->logger->error($errorMessage);
             $data['error'] = $errorMessage;
         }
-        return json_encode($data);
+        return $data;
     }
 
     /**
+     * Retrieve by entity_id
+     *
      * @param int $id
-     * @return string
+     * @return array
      */
-    public function getById(int $id): string
+    public function getById(int $id): array
     {
         $results = [];
         $data = [
@@ -122,10 +126,9 @@ class CorporateGroupApi implements CorporateGroupApiInterface
             'results' => $results
         ];
         try {
-            $corporateGroup = $this->corporateGroupFactory->create();
-            $corporateGroup->getResource()->load($corporateGroup, $id, 'entity_id');
-            if (!empty($corporateGroup->getEntityId())) {
-                $results[$corporateGroup->getEntityId()] = $corporateGroup->getData();
+            $corporateGroup = $this->corporateGroupFactory->create()->load($id);
+            if (!empty($corporateGroup->getId())) {
+                $results[$id] = $corporateGroup->getData();
             }
             $data = [
                 'success' => true,
@@ -136,7 +139,7 @@ class CorporateGroupApi implements CorporateGroupApiInterface
             $this->logger->error($errorMessage);
             $data['error'] = $errorMessage;
         }
-        return json_encode($data);
+        return $data;
     }
 
     /**
@@ -146,7 +149,7 @@ class CorporateGroupApi implements CorporateGroupApiInterface
      * @param string $groupName
      * @param string $email
      * @param string $telephone
-     * @return string
+     * @return array
      * @throws \Exception
      */
     public function create(
@@ -154,7 +157,7 @@ class CorporateGroupApi implements CorporateGroupApiInterface
         string $groupName,
         string $email,
         string $telephone
-    ): string {
+    ): array {
         $results = [];
         $data = [
             'success' => false,
@@ -181,20 +184,20 @@ class CorporateGroupApi implements CorporateGroupApiInterface
             if (!$this->isValidPhone($telephone)) {
                 $errors[] = 'Please enter valid telephone like: (123) 456-7890 or 123-456-7890.';
             }
-            $corporateGroup = $this->corporateGroupFactory->create();
-            $corporateGroup->getResource()->load($corporateGroup, $groupId, 'group_id');
-            if (!empty($corporateGroup->getEntityId())) {
-                $errors[] = __('The group_id "%1" already exists.', $groupId);
-            }
-            if (!empty($errors)) {
-                throw new LocalizedException(__(implode(' ', $errors)));
-            }
-
             $newRecord = [
                 corporateGroupInterface::GROUP_NAME => $groupName ?? '',
                 corporateGroupInterface::EMAIL => $email ?? '',
                 corporateGroupInterface::TELEPHONE => $telephone
             ];
+
+            $corporateGroup = $this->corporateGroupFactory->create()->load($groupId, 'group_id');
+            if (!empty($corporateGroup->getId())) {
+                $errors[] = __('The group_id "%1" already exists.', $groupId);
+            }
+            if (!empty($errors)) {
+                throw new LocalizedException(__(implode('. ', $errors)));
+            }
+
             if (!empty($groupId)) {
                 $newRecord[corporateGroupInterface::GROUP_ID] = $groupId;
             }
@@ -213,25 +216,26 @@ class CorporateGroupApi implements CorporateGroupApiInterface
             $this->logger->error($errorMessage);
             $data['error'] = $errorMessage;
         }
-        return json_encode($data);
+        return $data;
     }
 
     /**
+     * Remove by group_id
+     *
      * @param string $groupId
-     * @return string
+     * @return array
      * @throws \Exception
      */
-    public function deleteByGroupId(string $groupId): string
+    public function deleteByGroupId(string $groupId): array
     {
         $data = [
             'success' => false,
             'error' => ''
         ];
         try {
-            $corporateGroup = $this->corporateGroupFactory->create();
-            $corporateGroup->getResource()->load($corporateGroup, $groupId, 'group_id');
-            if (!empty($corporateGroup->getEntityId())) {
-                $corporateGroup->getResource()->delete($corporateGroup);
+            $corporateGroup = $this->corporateGroupFactory->create()->load($groupId, 'group_id');
+            if (!empty($corporateGroup->getId())) {
+                $this->resourceModel->delete($corporateGroup);
             }
             $data['success'] = true;
         } catch (LocalizedException $e) {
@@ -239,7 +243,7 @@ class CorporateGroupApi implements CorporateGroupApiInterface
             $this->logger->error($errorMessage);
             $data['error'] = $errorMessage;
         }
-        return json_encode($data);
+        return $data;
     }
 
     /**
@@ -259,9 +263,9 @@ class CorporateGroupApi implements CorporateGroupApiInterface
      *
      * @param string $groupId
      * @param int $customerId
-     * @return string
+     * @return array
      */
-    public function linkToCustomerById(string $groupId, int $customerId): string
+    public function linkToCustomerById(string $groupId, int $customerId): array
     {
         $data = [
             'success' => false,
@@ -281,7 +285,7 @@ class CorporateGroupApi implements CorporateGroupApiInterface
             $this->logger->error($errorMessage);
             $data['error'] = $errorMessage;
         }
-        return json_encode($data);
+        return $data;
     }
 
     /**
@@ -289,9 +293,9 @@ class CorporateGroupApi implements CorporateGroupApiInterface
      *
      * @param string $groupId
      * @param string $email
-     * @return string
+     * @return array
      */
-    public function linkToCustomerByEmail(string $groupId, string $email): string
+    public function linkToCustomerByEmail(string $groupId, string $email): array
     {
         $data = [
             'success' => false,
@@ -309,6 +313,6 @@ class CorporateGroupApi implements CorporateGroupApiInterface
             $this->logger->error($errorMessage);
             $data['error'] = $errorMessage;
         }
-        return json_encode($data);
+        return $data;
     }
 }

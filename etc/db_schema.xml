@@ -12,13 +12,14 @@
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
     <table name="concentrix_codechallenge_corporate_group" resource="default" engine="innodb" comment="Corporate Group">
-        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Corporate Group Entity Id"/>
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Corporate Group Entity Id"/>
         <column xsi:type="varchar" name="group_id" nullable="false" length="255" comment="Corporate Group ID"/>
-        <column xsi:type="varchar" name="group_name" nullable="false" length="255" comment="Corporate Group Name" />
+        <column xsi:type="varchar" name="group_name" nullable="false" length="255" comment="Corporate Group Name"/>
         <column xsi:type="varchar" name="email" nullable="false" length="255" comment="Corporate Group Contact Email"/>
         <column xsi:type="varchar" name="telephone" nullable="false" length="255" comment="Corporate Group Telephone"/>
-        <column xsi:type="datetime" name="created_at" default="0" nullable="false"  comment="Creation Time"/>
-        <column xsi:type="datetime" name="updated_at" default="0" nullable="false"  comment="Update Time"/>
+        <column xsi:type="datetime" name="created_at" default="0" nullable="false" comment="Creation Time"/>
+        <column xsi:type="datetime" name="updated_at" default="0" nullable="false" comment="Update Time"/>
 
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="entity_id"/>

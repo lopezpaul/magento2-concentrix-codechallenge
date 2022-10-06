@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * Copyright © 2022 Concentrix. All rights reserved.
  *
@@ -18,23 +20,24 @@ use Magento\Framework\Stdlib\DateTime\DateTime;
 
 class CorporateGroup extends AbstractDb
 {
-    const ATTRIBUTE_CODE = 'corporate_group_id';
-    const ENTITY_TYPE = 'customer';
+    /** @var string */
+    public const ATTRIBUTE_CODE = 'corporate_group_id';
+
+    /** @var string */
+    public const ENTITY_TYPE = 'customer';
+
+    /** @var int */
+    private int $attributeId;
+
+    /** @var DateTime */
+    private DateTime $datetime;
+
+    /** @var ResourceConnection */
+    private ResourceConnection $resourceConnection;
 
     /**
-     * @var int $attributeId
-     */
-    public int $attributeId;
-    /**
-     * @var DateTime
-     */
-    protected DateTime $datetime;
-    /**
-     * @var ResourceConnection
-     */
-    protected ResourceConnection $resourceConnection;
-
-    /**
+     * Constructor of Corporate Group
+     *
      * @param Context $context
      * @param DateTime $date
      * @param ResourceConnection $resourceConnection
@@ -42,11 +45,11 @@ class CorporateGroup extends AbstractDb
      * @param string|null $resourcePrefix
      */
     public function __construct(
-        Context            $context,
-        DateTime           $date,
+        Context $context,
+        DateTime $date,
         ResourceConnection $resourceConnection,
-        Attribute          $eavAttribute,
-        string             $resourcePrefix = null
+        Attribute $eavAttribute,
+        string $resourcePrefix = null
     ) {
         parent::__construct($context, $resourcePrefix);
         $this->datetime = $date;

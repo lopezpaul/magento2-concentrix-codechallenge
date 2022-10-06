@@ -12,17 +12,17 @@
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
 
-   <route url="/V1/api/corporateGroups/create" method="POST">
+    <route url="/V1/api/corporateGroups/create" method="POST">
         <service class="Concentrix\CodeChallenge\Api\CorporateGroupApiInterface" method="create"/>
         <resources>
             <resource ref="anonymous"/>
         </resources>
-       <data>
-           <parameter name="groupId" >%groupId%</parameter>
-           <parameter name="groupName" >%groupName%</parameter>
-           <parameter name="email" >%email%</parameter>
-           <parameter name="telephone" >%telephone%</parameter>
-       </data>
+        <data>
+            <parameter name="groupId">%groupId%</parameter>
+            <parameter name="groupName">%groupName%</parameter>
+            <parameter name="email">%email%</parameter>
+            <parameter name="telephone">%telephone%</parameter>
+        </data>
     </route>
 
     <route url="/V1/api/corporateGroups/getById/:id" method="GET">
@@ -59,8 +59,8 @@
             <resource ref="anonymous"/>
         </resources>
         <data>
-            <parameter name="groupId" >%groupId%</parameter>
-            <parameter name="customerId" >%customerId%</parameter>
+            <parameter name="groupId">%groupId%</parameter>
+            <parameter name="customerId">%customerId%</parameter>
         </data>
     </route>
 
@@ -70,8 +70,8 @@
             <resource ref="anonymous"/>
         </resources>
         <data>
-            <parameter name="groupId" >%groupId%</parameter>
-            <parameter name="email" >%email%</parameter>
+            <parameter name="groupId">%groupId%</parameter>
+            <parameter name="email">%email%</parameter>
         </data>
     </route>
 </routes>

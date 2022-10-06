@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * Copyright © 2022 Concentrix. All rights reserved.
  *
@@ -16,20 +18,17 @@ use Psr\Log\LoggerInterface;
 
 class Options extends AbstractSource
 {
-    /**
-     * @var CorporateGroupFactory
-     */
-    protected CorporateGroupFactory $corporateGroupFactory;
+    /** @var CorporateGroupFactory */
+    private CorporateGroupFactory $corporateGroupFactory;
 
-    /**
-     * @var LoggerInterface $logger
-     */
-    protected LoggerInterface $logger;
+    /** @var LoggerInterface */
+    private LoggerInterface $logger;
 
     /**
      * Options constructor
      *
      * @param CorporateGroupFactory $corporateGroupFactory
+     * @param LoggerInterface $logger
      */
     public function __construct(
         CorporateGroupFactory $corporateGroupFactory,
@@ -40,18 +39,18 @@ class Options extends AbstractSource
     }
 
     /**
-     * @param Retreive all corporate group options
+     * Retreive all corporate group options
      *
-     * @return array $options
+     * @return array|null
      */
-    public function getAllOptions()
+    public function getAllOptions(): ?array
     {
-        $this->_options =[];
+        $this->_options = [];
         $options = $this->getOptions();
         if (!empty($options)) {
-            array_push($this->_options, ['label' => 'Please select an option', 'value' => '']);
+            $this->_options[] = ['label' => 'Please select an option', 'value' => ''];
             foreach ($options as $id => $label) {
-                array_push($this->_options, ['label' => $label, 'value' => $id]);
+                $this->_options[] = ['label' => $label, 'value' => $id];
             }
         }
         return $this->_options;
@@ -62,7 +61,7 @@ class Options extends AbstractSource
      *
      * @return array $options
      */
-    public function getOptions():array
+    public function getOptions(): array
     {
         $options = [];
         $corporateGroupsCollection = $this->corporateGroupFactory->create()->getCollection();
